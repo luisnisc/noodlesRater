@@ -2,13 +2,21 @@
 import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const res = await fetch("http://noodle.loseardes77.dev/api/noodles");
+  const res = await fetch("http://127.0.0.1:8000/api/noodles");
   if (!res.ok) throw new Error("Failed to fetch noodle list");
   const all = await res.json();
-  return all.map((n) => ({ params: { noodle: `${n.id}` } }));
+
+  return all.map((n) => ({
+    params: { noodle: String(n.id) },
+  }));
 }
 
-const res = await fetch("http://noodle.loseardes77.dev/api/noodles");
+export const prerender = true;
+export const revalidate = 60;
+
+const res = await fetch("http://127.0.0.1:8000/api/noodles", {
+  cache: "force-cache",
+});
 if (!res.ok) throw new Error("Failed to fetch noodle list");
 const noodles = await res.json();
 
@@ -59,7 +67,7 @@ const uniqueRatingName = `rating-${id}`;
               type="radio"
               name={uniqueRatingName}
               class="rating-hidden"
-              checked={ratings  == 0}
+              checked={ratings == 0}
               data-value={0}
             />
             <input
@@ -67,7 +75,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="0.5 star"
-              checked={ratings  == 1}
+              checked={ratings == 1}
               data-value={0.5}
             />
             <input
@@ -75,7 +83,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="1 star"
-              checked={ratings  == 2}
+              checked={ratings == 2}
               data-value={1}
             />
             <input
@@ -83,7 +91,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="1.5 star"
-              checked={ratings  == 3}
+              checked={ratings == 3}
               data-value={1.5}
             />
             <input
@@ -91,7 +99,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="2 star"
-              checked={ratings  == 4}
+              checked={ratings == 4}
               data-value={2}
             />
             <input
@@ -99,7 +107,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="2.5 star"
-              checked={ratings  == 5}
+              checked={ratings == 5}
               data-value={2.5}
             />
             <input
@@ -107,7 +115,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="3 star"
-              checked={ratings  == 6}
+              checked={ratings == 6}
               data-value={3}
             />
             <input
@@ -115,7 +123,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="3.5 star"
-              checked={ratings  == 7}
+              checked={ratings == 7}
               data-value={3.5}
             />
             <input
@@ -123,7 +131,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="4 star"
-              checked={ratings  == 8}
+              checked={ratings == 8}
               data-value={4}
             />
             <input
@@ -131,7 +139,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="4.5 star"
-              checked={ratings  == 9}
+              checked={ratings == 9}
               data-value={4.5}
             />
             <input
@@ -139,7 +147,7 @@ const uniqueRatingName = `rating-${id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="5 star"
-              checked={ratings  == 10}
+              checked={ratings == 10}
               data-value={5}
             />
           </div>

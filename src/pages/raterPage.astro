@@ -4,11 +4,15 @@ import Layout from "../layouts/Layout.astro";
 import noodlesjson from "../data/noodles.json";
 import { Image } from "astro:assets";
 
-const response = await fetch("http://noodle.loseardes77.dev/api/noodles");
+const response = await fetch("http://127.0.0.1:8000/api/noodles", {
+  cache: "force-cache",
+});
 if (!response.ok) {
   throw new Error("Failed to fetch data");
 }
 const noodles = await response.json();
+
+
 
 ---
 

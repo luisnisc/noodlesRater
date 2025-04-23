@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 
 const { id, name, ratings = 0, img } = Astro.props;
+// parse rating as number
+const ratingsNum = Number(ratings);
 const uniqueRatingName = `rating-${id}`;
 ---
 
@@ -18,6 +20,8 @@ const uniqueRatingName = `rating-${id}`;
     src={img || "https://picsum.photos/400/200"}
     alt={name || "Noodle"}
     class="rounded-t-lg w-full h-40 object-cover mb-4 cursor-zoom-in"
+    loading="lazy"
+    placeholder="blur"
     transition:name={`image-${id}`}
   />
   <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2">{name}</h2>
@@ -27,7 +31,7 @@ const uniqueRatingName = `rating-${id}`;
         type="radio"
         name={uniqueRatingName}
         class="rating-hidden"
-        checked={ratings == 0}
+        checked={ratingsNum === 0}
         disabled
       />
       <input
@@ -35,7 +39,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="0.5 star"
-        checked={ratings == 1}
+        checked={ratingsNum === 1}
         disabled
       />
       <input
@@ -43,7 +47,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="1 star"
-        checked={ratings == 2}
+        checked={ratingsNum === 2}
         disabled
       />
       <input
@@ -51,7 +55,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="1.5 star"
-        checked={ratings == 3}
+        checked={ratingsNum === 3}
         disabled
       />
       <input
@@ -59,7 +63,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="2 star"
-        checked={ratings == 4}
+        checked={ratingsNum === 4}
         disabled
       />
       <input
@@ -67,7 +71,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="2.5 star"
-        checked={ratings == 5}
+        checked={ratingsNum === 5}
         disabled
       />
       <input
@@ -75,7 +79,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="3 star"
-        checked={ratings == 6}
+        checked={ratingsNum === 6}
         disabled
       />
       <input
@@ -83,7 +87,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="3.5 star"
-        checked={ratings == 7}
+        checked={ratingsNum === 7}
         disabled
       />
       <input
@@ -91,7 +95,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="4 star"
-        checked={ratings == 8}
+        checked={ratingsNum === 8}
         disabled
       />
       <input
@@ -99,7 +103,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="4.5 star"
-        checked={ratings == 9}
+        checked={ratingsNum === 9}
         disabled
       />
       <input
@@ -107,7 +111,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="5 star"
-        checked={ratings == 10}
+        checked={ratingsNum === 10}
         disabled
       />
     </div>
@@ -138,16 +142,14 @@ const uniqueRatingName = `rating-${id}`;
   >
 </div>
 
-<script type="module" client:load>
+<script type="module">
   const imgEl = document.getElementById(`img-${id}`);
   const modalEl = document.getElementById(`modal-${id}`);
   const closeBtn = document.getElementById(`close-${id}`);
-
-  imgEl.addEventListener("click", () => {
+  imgEl.addEventListener("dblclick", () => {
     modalEl.classList.remove("hidden");
     modalEl.classList.add("flex");
   });
-
   closeBtn.addEventListener("click", () => {
     modalEl.classList.add("hidden");
     modalEl.classList.remove("flex");
