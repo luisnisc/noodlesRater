@@ -1,10 +1,12 @@
 ---
+import { Image } from "astro:assets";
+
 const { id, name, rate = 0, image } = Astro.props;
 const uniqueRatingName = `rating-${id}`;
 ---
 
 <div class="bg-white shadow-md rounded-lg p-4 w-80 text-black">
-  <img src={image || "https://picsum.photos/400/200"} alt={name} class="rounded-t-lg w-full h-40 object-cover mb-4" transition:name={`image-${id}`} />
+  <Image width={200} height={400} src={image || "https://picsum.photos/400/200"} alt={name} class="rounded-t-lg w-full h-40 object-cover mb-4" transition:name={`image-${id}`} />
   <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2">{name}</h2>
   <div>
     <div class="rating rating-lg rating-half" transition:name={`rater-${id}`}>

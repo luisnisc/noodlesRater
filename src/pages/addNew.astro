@@ -3,13 +3,36 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-    <main>
-        <form action="">
-            <input type="text" name="name" placeholder="Nombre del Noodle" class="input input-bordered w-full max-w-xs mb-4" required />
-            <input type="text" name="image" placeholder="URL de la Imagen" class="input input-bordered w-full max-w-xs mb-4" required />
-            <textarea name="description" placeholder="Descripción del Noodle" class="textarea textarea-bordered w-full max-w-xs mb-4" required></textarea>
-            <input type="number" name="rate" placeholder="Puntuación (0-10)" class="input input-bordered w-full max-w-xs mb-4" min="0" max="10" required />
-        </form>
+    <main class="min-h-screen bg-gray-100 flex flex-col items-center py-8">
+        <div id="menu">
+            <a href="/raterPage">
+                <button class="btn btn-primary mb-4">Volver Atrás</button>
+            </a>
+            <a href="/">
+                <button class="btn btn-secondary mb-4">Volver a la Página Principal</button>
+            </a>
+        </div>
+        <div class="flex flex-col items-center gap-4 min-h-screen">
+            <input type="text" name="name" placeholder="Nombre del Noodle" class="input input-bordered w-full max-w-xs mb-4 bg-gray-300 text-black " required />
+            <input type="file" class="file-input bg-gray-300 text-black" />
+            <textarea name="description" placeholder="Descripción del Noodle" class="textarea textarea-bordered w-full max-w-xs mb-4 bg-gray-300 text-black" required></textarea>
+            
+            <div class="rating rating-lg rating-half mb-4 text-black text-xl" id="rating">
+                Puntuación:
+                <input type="radio" name="rating" class="rating-hidden" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-1 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-2 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-1 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-2 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-1 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-2 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-1 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-2 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-1 bg-orange-500" />
+                <input type="radio" name="rating" class="mask mask-star-2 mask-half-2 bg-orange-500" />
+            
+        </div>
+            <button class="btn btn-primary mb-4">Agregar Noodle</button>
     </main>
 </Layout>
 

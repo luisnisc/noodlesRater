@@ -28,18 +28,18 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
       <h1 class="text-3xl font-bold text-gray-800 mb-2" transition:name={`name-${noodleData.id}`}>{noodleData.name}</h1>
       <div class="rating rating-lg rating-half" transition:name={`rater-${noodleData.id}`}>
         <input type="radio" name={uniqueRatingName} class="rating-hidden" checked={noodleData.rate === 0} data-value={0} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="0.5 star" checked={noodleData.rate === 0.5} data-value={0.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="1 star" checked={noodleData.rate === 1} data-value={1} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="1.5 star" checked={noodleData.rate === 1.5} data-value={1.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="2 star" checked={noodleData.rate === 2} data-value={2} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="2.5 star" checked={noodleData.rate === 2.5} data-value={2.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="3 star" checked={noodleData.rate === 3} data-value={3} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="3.5 star" checked={noodleData.rate === 3.5} data-value={3.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="4 star" checked={noodleData.rate === 4} data-value={4} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="4.5 star" checked={noodleData.rate === 4.5} data-value={4.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="5 star" checked={noodleData.rate === 5} data-value={5} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="0.5 star" checked={noodleData.rate === 1} data-value={0.5} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="1 star" checked={noodleData.rate === 2} data-value={1} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="1.5 star" checked={noodleData.rate === 3} data-value={1.5} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="2 star" checked={noodleData.rate === 4} data-value={2} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="2.5 star" checked={noodleData.rate === 5} data-value={2.5} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="3 star" checked={noodleData.rate === 6} data-value={3} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="3.5 star" checked={noodleData.rate === 7} data-value={3.5} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="4 star" checked={noodleData.rate === 8} data-value={4} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="4.5 star" checked={noodleData.rate === 9} data-value={4.5} />
+        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="5 star" checked={noodleData.rate === 10} data-value={5} />
       </div>
-      <p id="rate-display" class="text-gray-600 my-4" transition:name={`rate-text-${noodleData.id}`}>Puntuación: {noodleData.rate}/5</p>
+      <p id="rate-display" class="text-gray-600 my-4" transition:name={`rate-text-${noodleData.id}`}>Puntuación: {noodleData.rate}/10</p>
       <p class="text-gray-700 text-center" >{noodleData.description || 'Sin descripción disponible para este noodle.'}</p>
     </div>
   </main>
