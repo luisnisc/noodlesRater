@@ -1,52 +1,176 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 export async function getStaticPaths() {
   return noodles.map((noodle) => ({
-    params: { noodle: noodle.id }
+    params: { noodle: noodle.id },
   }));
 }
-import { noodles } from '../data/noodles.json';
+import { noodles } from "../data/noodles.json";
 
 const { noodle } = Astro.params;
-const noodleData = noodles.find(n => n.id === noodle);
-const uniqueRatingName = `rating-${noodleData?.id}`; 
+const noodleData = noodles.find((n) => n.id === noodle);
+const uniqueRatingName = `rating-${noodleData?.id}`;
 ---
 
 <head>
-    <meta charset="UTF-8" />
-    <title>{noodleData ? noodleData.name : 'Noodle no encontrado'}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  </head>
+  <meta charset="UTF-8" />
+  <title>{noodleData ? noodleData.name : "Noodle no encontrado"}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
 <Layout>
-
-{noodleData ? (
-  <main class="md:min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col items-center py-8 min-h-screen justify-center ">
-
-<a href="/raterPage" transition:name={`moreInfo-${noodleData.id}`} class="md:absolute md:left-0 md:top-0 m-5" ><button class="btn btn-primary w-max mb-4">Volver Atrás</button></a>
-    <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-md flex flex-col items-center">
-      <img src={noodleData.image || 'https://picsum.photos/400/200'} alt={noodleData.name} class="rounded-lg w-full h-48 object-cover mb-4" transition:name={`image-${noodleData.id}`} />
-      <h1 class="text-3xl font-bold text-gray-800 mb-2" transition:name={`name-${noodleData.id}`}>{noodleData.name}</h1>
-      <div class="rating rating-lg rating-half" transition:name={`rater-${noodleData.id}`}>
-        <input type="radio" name={uniqueRatingName} class="rating-hidden" checked={noodleData.rate === 0} data-value={0} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="0.5 star" checked={noodleData.rate === 1} data-value={0.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="1 star" checked={noodleData.rate === 2} data-value={1} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="1.5 star" checked={noodleData.rate === 3} data-value={1.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="2 star" checked={noodleData.rate === 4} data-value={2} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="2.5 star" checked={noodleData.rate === 5} data-value={2.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="3 star" checked={noodleData.rate === 6} data-value={3} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="3.5 star" checked={noodleData.rate === 7} data-value={3.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="4 star" checked={noodleData.rate === 8} data-value={4} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="4.5 star" checked={noodleData.rate === 9} data-value={4.5} />
-        <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="5 star" checked={noodleData.rate === 10} data-value={5} />
-      </div>
-      <p id="rate-display" class="text-gray-600 my-4" transition:name={`rate-text-${noodleData.id}`}>Puntuación: {noodleData.rate}/10</p>
-      <p class="text-gray-700 text-center" >{noodleData.description || 'Sin descripción disponible para este noodle.'}</p>
-    </div>
-  </main>
-) : (
-  <main class="min-h-screen flex items-center justify-center">
-    <p class="text-xl text-gray-600">Noodle no encontrado.</p>
-  </main>
-)}
+  {
+    noodleData ? (
+      <main class="md:min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col items-center py-8 min-h-screen justify-center ">
+        <a
+          href="/raterPage"
+          transition:name={`moreInfo-${noodleData.id}`}
+          class="md:absolute md:left-0 md:top-0 m-5"
+        >
+          <button class="btn btn-primary w-max mb-4">Volver Atrás</button>
+        </a>
+        <div
+          class="bg-white shadow-lg rounded-xl p-6 w-full max-w-md flex flex-col items-center"
+          transition:name={`card-${noodleData.id}`}
+        >
+          <img
+            src={noodleData.image || "https://picsum.photos/400/200"}
+            alt={noodleData.name}
+            class="rounded-lg w-full h-48 object-cover mb-4"
+            transition:name={`image-${noodleData.id}`}
+          />
+          <h1
+            class="text-3xl font-bold text-gray-800 mb-2"
+            transition:name={`name-${noodleData.id}`}
+          >
+            {noodleData.name}
+          </h1>
+          <div
+            class="rating rating-lg rating-half"
+            transition:name={`rater-${noodleData.id}`}
+          >
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="rating-hidden"
+              checked={noodleData.rate === 0}
+              data-value={0}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-1 bg-orange-500"
+              aria-label="0.5 star"
+              checked={noodleData.rate === 1}
+              data-value={0.5}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-2 bg-orange-500"
+              aria-label="1 star"
+              checked={noodleData.rate === 2}
+              data-value={1}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-1 bg-orange-500"
+              aria-label="1.5 star"
+              checked={noodleData.rate === 3}
+              data-value={1.5}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-2 bg-orange-500"
+              aria-label="2 star"
+              checked={noodleData.rate === 4}
+              data-value={2}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-1 bg-orange-500"
+              aria-label="2.5 star"
+              checked={noodleData.rate === 5}
+              data-value={2.5}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-2 bg-orange-500"
+              aria-label="3 star"
+              checked={noodleData.rate === 6}
+              data-value={3}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-1 bg-orange-500"
+              aria-label="3.5 star"
+              checked={noodleData.rate === 7}
+              data-value={3.5}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-2 bg-orange-500"
+              aria-label="4 star"
+              checked={noodleData.rate === 8}
+              data-value={4}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-1 bg-orange-500"
+              aria-label="4.5 star"
+              checked={noodleData.rate === 9}
+              data-value={4.5}
+            />
+            <input
+              type="radio"
+              name={uniqueRatingName}
+              class="mask mask-star-2 mask-half-2 bg-orange-500"
+              aria-label="5 star"
+              checked={noodleData.rate === 10}
+              data-value={5}
+            />
+          </div>
+          <p
+            id="rate-display"
+            class="text-gray-600 my-4"
+            transition:name={`rate-text-${noodleData.id}`}
+          >
+            Puntuación: {noodleData.rate}/10
+          </p>
+          <p class="text-gray-700 text-center">
+            {noodleData.description ||
+              "Sin descripción disponible para este noodle."}
+          </p>
+        </div>
+      </main>
+    ) : (
+      <main class="md:min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col items-center py-8 min-h-screen justify-center">
+        <a href="/raterPage" class="md:absolute md:left-0 md:top-0 m-5">
+          <button class="btn btn-primary w-max mb-4">Volver Atrás</button>
+        </a>
+        <div role="alert" class="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Error! Noodle no encontrado.</span>
+        </div>
+      </main>
+    )
+  }
 </Layout>
-
