@@ -1,15 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
-export async function getStaticPaths() {
-  return noodles.map((noodle) => ({
-    params: { noodle: noodle.id },
-  }));
-}
-import { noodles } from "../data/noodles.json";
 
-const { noodle } = Astro.params;
-const noodleData = noodles.find((n) => n.id === noodle);
-const uniqueRatingName = `rating-${noodleData?.id}`;
+export async function getStaticPaths() {
+  const res = await fetch("http://noodle.loseardes77.dev/api/noodles");
+  if (!res.ok) throw new Error("Failed to fetch noodle list");
+  const all = await res.json();
+  return all.map((n) => ({ params: { noodle: `${n.id}` } }));
+}
+
+const res = await fetch("http://noodle.loseardes77.dev/api/noodles");
+if (!res.ok) throw new Error("Failed to fetch noodle list");
+const noodles = await res.json();
+
+const id = Number(Astro.params.noodle);
+const noodleData = noodles.find((n) => n.id === id) || {};
+const imageSrc = noodleData.img || "https://picsum.photos/400/200";
+const ratings = noodleData.ratings ?? 0;
+const uniqueRatingName = `rating-${id}`;
 ---
 
 <head>
@@ -23,36 +30,36 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
       <main class="md:min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col items-center py-8 min-h-screen justify-center ">
         <a
           href="/raterPage"
-          transition:name={`moreInfo-${noodleData.id}`}
+          transition:name={`moreInfo-${id}`}
           class="md:absolute md:left-0 md:top-0 m-5"
         >
           <button class="btn btn-primary w-max mb-4">Volver Atrás</button>
         </a>
         <div
           class="bg-white shadow-lg rounded-xl p-6 w-full max-w-md flex flex-col items-center"
-          transition:name={`card-${noodleData.id}`}
+          transition:name={`card-${id}`}
         >
           <img
-            src={noodleData.image || "https://picsum.photos/400/200"}
+            src={imageSrc}
             alt={noodleData.name}
             class="rounded-lg w-full h-48 object-cover mb-4"
-            transition:name={`image-${noodleData.id}`}
+            transition:name={`image-${id}`}
           />
           <h1
             class="text-3xl font-bold text-gray-800 mb-2"
-            transition:name={`name-${noodleData.id}`}
+            transition:name={`name-${id}`}
           >
             {noodleData.name}
           </h1>
           <div
             class="rating rating-lg rating-half"
-            transition:name={`rater-${noodleData.id}`}
+            transition:name={`rater-${id}`}
           >
             <input
               type="radio"
               name={uniqueRatingName}
               class="rating-hidden"
-              checked={noodleData.rate === 0}
+              checked={ratings  == 0}
               data-value={0}
             />
             <input
@@ -60,7 +67,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="0.5 star"
-              checked={noodleData.rate === 1}
+              checked={ratings  == 1}
               data-value={0.5}
             />
             <input
@@ -68,7 +75,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="1 star"
-              checked={noodleData.rate === 2}
+              checked={ratings  == 2}
               data-value={1}
             />
             <input
@@ -76,7 +83,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="1.5 star"
-              checked={noodleData.rate === 3}
+              checked={ratings  == 3}
               data-value={1.5}
             />
             <input
@@ -84,7 +91,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="2 star"
-              checked={noodleData.rate === 4}
+              checked={ratings  == 4}
               data-value={2}
             />
             <input
@@ -92,7 +99,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="2.5 star"
-              checked={noodleData.rate === 5}
+              checked={ratings  == 5}
               data-value={2.5}
             />
             <input
@@ -100,7 +107,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="3 star"
-              checked={noodleData.rate === 6}
+              checked={ratings  == 6}
               data-value={3}
             />
             <input
@@ -108,7 +115,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="3.5 star"
-              checked={noodleData.rate === 7}
+              checked={ratings  == 7}
               data-value={3.5}
             />
             <input
@@ -116,7 +123,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="4 star"
-              checked={noodleData.rate === 8}
+              checked={ratings  == 8}
               data-value={4}
             />
             <input
@@ -124,7 +131,7 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-1 bg-orange-500"
               aria-label="4.5 star"
-              checked={noodleData.rate === 9}
+              checked={ratings  == 9}
               data-value={4.5}
             />
             <input
@@ -132,16 +139,16 @@ const uniqueRatingName = `rating-${noodleData?.id}`;
               name={uniqueRatingName}
               class="mask mask-star-2 mask-half-2 bg-orange-500"
               aria-label="5 star"
-              checked={noodleData.rate === 10}
+              checked={ratings  == 10}
               data-value={5}
             />
           </div>
           <p
             id="rate-display"
             class="text-gray-600 my-4"
-            transition:name={`rate-text-${noodleData.id}`}
+            transition:name={`rate-text-${id}`}
           >
-            Puntuación: {noodleData.rate}/10
+            Puntuación: {ratings}/10
           </p>
           <p class="text-gray-700 text-center">
             {noodleData.description ||

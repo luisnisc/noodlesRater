@@ -1,20 +1,23 @@
 ---
 import { Image } from "astro:assets";
 
-const { id, name, rate = 0, image } = Astro.props;
+const { id, name, ratings = 0, img } = Astro.props;
 const uniqueRatingName = `rating-${id}`;
 ---
 
 <div
-  class="bg-white shadow-md rounded-lg p-4 w-80 text-black hover:scale-105 transition-transform duration-300 ease-in-out"
+  class="card bg-white shadow-md rounded-lg p-4 w-80 text-black hover:scale-105 transition-transform duration-300 ease-in-out"
   transition:name={`card-${id}`}
+  data-rating={ratings}
+  data-name={name.toLowerCase()}
 >
   <Image
+    id={`img-${id}`}
     width={200}
     height={400}
-    src={image || "https://picsum.photos/400/200"}
+    src={img || "https://picsum.photos/400/200"}
     alt={name || "Noodle"}
-    class="rounded-t-lg w-full h-40 object-cover mb-4"
+    class="rounded-t-lg w-full h-40 object-cover mb-4 cursor-zoom-in"
     transition:name={`image-${id}`}
   />
   <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2">{name}</h2>
@@ -24,7 +27,7 @@ const uniqueRatingName = `rating-${id}`;
         type="radio"
         name={uniqueRatingName}
         class="rating-hidden"
-        checked={rate === 0}
+        checked={ratings == 0}
         disabled
       />
       <input
@@ -32,7 +35,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="0.5 star"
-        checked={rate === 1}
+        checked={ratings == 1}
         disabled
       />
       <input
@@ -40,7 +43,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="1 star"
-        checked={rate === 2}
+        checked={ratings == 2}
         disabled
       />
       <input
@@ -48,7 +51,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="1.5 star"
-        checked={rate === 3}
+        checked={ratings == 3}
         disabled
       />
       <input
@@ -56,7 +59,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="2 star"
-        checked={rate === 4}
+        checked={ratings == 4}
         disabled
       />
       <input
@@ -64,7 +67,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="2.5 star"
-        checked={rate === 5}
+        checked={ratings == 5}
         disabled
       />
       <input
@@ -72,7 +75,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="3 star"
-        checked={rate === 6}
+        checked={ratings == 6}
         disabled
       />
       <input
@@ -80,7 +83,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="3.5 star"
-        checked={rate === 7}
+        checked={ratings == 7}
         disabled
       />
       <input
@@ -88,7 +91,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="4 star"
-        checked={rate === 8}
+        checked={ratings == 8}
         disabled
       />
       <input
@@ -96,7 +99,7 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-1 bg-orange-500"
         aria-label="4.5 star"
-        checked={rate === 9}
+        checked={ratings == 9}
         disabled
       />
       <input
@@ -104,12 +107,12 @@ const uniqueRatingName = `rating-${id}`;
         name={uniqueRatingName}
         class="mask mask-star-2 mask-half-2 bg-orange-500"
         aria-label="5 star"
-        checked={rate === 10}
+        checked={ratings == 10}
         disabled
       />
     </div>
-    <p class="mt-2 text-sm text-gray-600" transition:name={`rate-text-${id}`}>
-      Puntuación: {rate}/10
+    <p class="mt-2 text-sm text-gray-600" transition:name={`rater-text-${id}`}>
+      Puntuación: {ratings}/10
     </p>
   </div>
 
@@ -120,3 +123,33 @@ const uniqueRatingName = `rating-${id}`;
     ><button class="btn btn-primary mt-4">Mas Información</button></a
   >
 </div>
+
+<div
+  id={`modal-${id}`}
+  class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 items-center justify-center"
+>
+  <img
+    src={img || "https://picsum.photos/400/200"}
+    alt={name}
+    class="max-w-full max-h-full rounded-lg"
+  />
+  <button id={`close-${id}`} class="absolute top-4 right-4 text-white text-3xl"
+    >&times;</button
+  >
+</div>
+
+<script type="module" client:load>
+  const imgEl = document.getElementById(`img-${id}`);
+  const modalEl = document.getElementById(`modal-${id}`);
+  const closeBtn = document.getElementById(`close-${id}`);
+
+  imgEl.addEventListener("click", () => {
+    modalEl.classList.remove("hidden");
+    modalEl.classList.add("flex");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modalEl.classList.add("hidden");
+    modalEl.classList.remove("flex");
+  });
+</script>

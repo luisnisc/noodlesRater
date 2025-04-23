@@ -2,19 +2,23 @@
 import Card from "../components/Card.astro";
 import Layout from "../layouts/Layout.astro";
 import noodlesjson from "../data/noodles.json";
+import { Image } from "astro:assets";
 
 const response = await fetch("http://noodle.loseardes77.dev/api/noodles");
 if (!response.ok) {
   throw new Error("Failed to fetch data");
 }
-const noodles = noodlesjson.noodles;
+const noodles = await response.json();
+
 ---
 
 <head>
   <meta charset="UTF-8" />
 </head>
 <Layout>
-  <main class="min-h-screen bg-gray-100 flex flex-col items-center py-8 scroll-smooth">
+  <main
+    class="min-h-screen bg-gray-100 flex flex-col items-center py-8 scroll-smooth"
+  >
     <div
       id="addNew"
       class="flex flex-col items-center gap-4 w-full md:flex-row md:justify-center md:w-full md:max-w-screen-md"
@@ -30,7 +34,15 @@ const noodles = noodlesjson.noodles;
     </div>
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Evalúa Tus Noodles</h1>
     <div>
-      <p class="text-gray-700 mb-4">Echa un vistazo a los noodles:</p>
+      <div class="flex flex-row items-center mb-4">
+        <p class="text-gray-700 mb-4">Echa un vistazo a los noodles:</p>
+        <select class="select mb-4 ml-4">
+          <option disabled selected>Ordenar por:</option>
+          <option value="mayorRating">Ordenar por mayor puntuación</option>
+          <option value="menorRating">Ordenar por menor puntuación</option>
+          <option value="nombre">Ordenar por nombre</option>
+        </select>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {
           noodles.map((noodle) => (
@@ -38,12 +50,37 @@ const noodles = noodlesjson.noodles;
               key={noodle.id}
               id={noodle.id}
               name={noodle.name}
-              rate={noodle.rate}
-              image={noodle.image || "https://picsum.photos/400/200"}
+              ratings={noodle.ratings}
+              img={noodle.img || "https://picsum.photos/400/200"}
             />
           ))
         }
       </div>
     </div>
   </main>
+  <script type="module">
+    const select = document.querySelector(".select");
+    const grid = document.querySelector(".grid");
+
+    function sortCards(option) {
+      const cards = Array.from(grid.querySelectorAll(".card"));
+      cards.sort((a, b) => {
+        if (option === "mayorRating") {
+          return b.dataset.rating - a.dataset.rating;
+        }
+        if (option === "menorRating") {
+          return a.dataset.rating - b.dataset.rating;
+        }
+        if (option === "nombre") {
+          return a.dataset.name.localeCompare(b.dataset.name);
+        }
+        return 0;
+      });
+      cards.forEach((card) => grid.appendChild(card));
+    }
+
+    select.addEventListener("change", (e) => {
+      sortCards(e.target.value);
+    });
+  </script>
 </Layout>
