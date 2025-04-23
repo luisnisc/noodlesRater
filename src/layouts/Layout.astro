@@ -1,8 +1,6 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import Analytics from "@vercel/analytics/astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
 const isDev = import.meta.env.DEV;
 ---
 
@@ -15,8 +13,6 @@ const isDev = import.meta.env.DEV;
     <meta name="generator" content={Astro.generator} />
     <title>NoodleRater</title>
     {isDev && <ClientRouter />}
-    <Analytics />
-    <SpeedInsights />
   </head>
   <body>
     <slot />
