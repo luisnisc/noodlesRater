@@ -1,0 +1,27 @@
+---
+const { id, name, rate = 0, image } = Astro.props;
+const uniqueRatingName = `rating-${id}`;
+---
+
+<div class="bg-white shadow-md rounded-lg p-4 w-80 text-black">
+  <img src={image || "https://picsum.photos/400/200"} alt={name} class="rounded-t-lg w-full h-40 object-cover mb-4" transition:name={`image-${id}`} />
+  <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2">{name}</h2>
+  <div>
+    <div class="rating rating-lg rating-half" transition:name={`rater-${id}`}>
+      <input type="radio" name={uniqueRatingName} class="rating-hidden" checked={rate === 0} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="0.5 star" checked={rate === 1} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="1 star" checked={rate === 2} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="1.5 star" checked={rate === 3} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="2 star" checked={rate === 4} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="2.5 star" checked={rate === 5} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="3 star" checked={rate === 6} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="3.5 star" checked={rate === 7} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="4 star" checked={rate === 8} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-1 bg-orange-500" aria-label="4.5 star" checked={rate === 9} />
+      <input type="radio" name={uniqueRatingName} class="mask mask-star-2 mask-half-2 bg-orange-500" aria-label="5 star" checked={rate === 10} />
+    </div>
+    <p class="mt-2 text-sm text-gray-600" transition:name={`rate-text-${id}`}>Puntuación: {rate}/10</p>
+  </div>
+
+  <a href={`/${id}`} class="flex justify-center" transition:name=`moreInfo-${id}`><button class="btn btn-primary mt-4">More Info</button></a>
+</div>

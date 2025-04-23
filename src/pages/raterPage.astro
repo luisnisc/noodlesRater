@@ -1,0 +1,35 @@
+---
+import Card from '../components/Card.astro';
+import Layout from '../layouts/Layout.astro';
+import { noodles } from '../data/noodles.json';
+---
+<head>
+  <meta charset="UTF-8" />
+</head>
+<Layout>
+  <main class="min-h-screen bg-gray-100 flex flex-col items-center py-8">
+    <div id="addNew">
+      <a href="/addNew">
+        <button class="btn btn-primary mb-4">Agregar Nuevo Noodle</button>
+      </a>
+      <a href="/">
+        <button class="btn btn-secondary mb-4">Volver a la Página Principal</button>
+      </a>
+    </div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Evalúa Tus Noodles</h1>
+    <div>
+      <p class="text-gray-700 mb-4">Echa un vistazo a los noodles:</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" >
+        {noodles.map((noodle) => (
+          <Card
+            key={noodle.id}
+            id={noodle.id}
+            name={noodle.name}
+            rate={noodle.rate}
+            image={noodle.image || 'https://picsum.photos/400/200'}
+          />
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>

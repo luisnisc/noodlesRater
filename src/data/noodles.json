@@ -1,0 +1,74 @@
+{
+    "noodles": [
+        {
+            "id": "1",
+            "name": "Noodle 1",
+            "rate": 3,
+            "image": "",
+            "description": "Noodle 1 es delicioso y picante, ideal para los amantes de la comida asiática."
+        },
+        {
+            "id": "2",
+            "name": "Noodle 2",
+            "rate": 5,
+            "image": "",
+            "description": "Noodle 2 tiene un sabor suave y una textura increíblemente tierna."
+        },
+        {
+            "id": "3",
+            "name": "Noodle 3",
+            "rate": 2,
+            "image": "",
+            "description": "Noodle 3 es perfecto para quienes buscan algo rápido y sencillo."
+        },
+        {
+            "id": "4",
+            "name": "Noodle 4",
+            "rate": 4,
+            "image": "",
+            "description": "Noodle 4 tiene un toque de ajo y jengibre que lo hace único."
+        },
+        {
+            "id": "5",
+            "name": "Noodle 5",
+            "rate": 5,
+            "image": "",
+            "description": "Noodle 5 es una explosión de sabores con un toque de limón."
+        },
+        {
+            "id": "6",
+            "name": "Noodle 6",
+            "rate": 3,
+            "image": "",
+            "description": "Noodle 6 es una opción clásica con un sabor tradicional."
+        },
+        {
+            "id": "7",
+            "name": "Spicy Ramen",
+            "rate": 7,
+            "image": "",
+            "description": "Un ramen picante con caldo tonkotsu y chashu."
+        },
+        {
+            "id": "8",
+            "name": "Veggie Udon",
+            "rate": 10,
+            "image": "",
+            "description": "Udon grueso con verduras salteadas y caldo dashi."
+        },
+        {
+            "id": "9",
+            "name": "Chicken Pho",
+            "rate": 4,
+            "image": "",
+            "description": "Sopa vietnamita de fideos de arroz con pollo y hierbas frescas."
+        },
+        {
+            "id": "10",
+            "name": "Simple Soba",
+            "rate": 4,
+            "image": "",
+            "description": "Fideos soba fríos con salsa tsuyu para mojar."
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+    <main>
+        <form action="">
+            <input type="text" name="name" placeholder="Nombre del Noodle" class="input input-bordered w-full max-w-xs mb-4" required />
+            <input type="text" name="image" placeholder="URL de la Imagen" class="input input-bordered w-full max-w-xs mb-4" required />
+            <textarea name="description" placeholder="Descripción del Noodle" class="textarea textarea-bordered w-full max-w-xs mb-4" required></textarea>
+            <input type="number" name="rate" placeholder="Puntuación (0-10)" class="input input-bordered w-full max-w-xs mb-4" min="0" max="10" required />
+        </form>
+    </main>
+</Layout>
+
