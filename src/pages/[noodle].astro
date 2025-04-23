@@ -1,17 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
-export async function getStaticPaths() {
-  const res = await fetch("http://127.0.0.1:8000/api/noodles");
-  if (!res.ok) throw new Error("Failed to fetch noodle list");
-  const all = await res.json();
-
-  return all.map((n) => ({
-    params: { noodle: String(n.id) },
-  }));
-}
-
-export const prerender = true;
+// Removed static generation to enable dynamic SSR routing
+export const prerender = false;
 export const revalidate = 60;
 
 const res = await fetch("http://127.0.0.1:8000/api/noodles", {
