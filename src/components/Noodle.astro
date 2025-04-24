@@ -29,7 +29,7 @@ const uniqueRatingName = `rating-${id}`;
                 transition:name={`card-${id}`}
             >
                 <img
-                    src={imageSrc}
+                    src={"data:image/webp;base64," + imageSrc}
                     alt={noodleData.name}
                     class="rounded-lg w-full h-48 object-cover mb-4"
                     transition:name={`image-${id}`}
