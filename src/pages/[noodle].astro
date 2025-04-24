@@ -16,6 +16,14 @@ const id = Number(Astro.params.noodle);
 </head>
 <Layout>
     <Noodle id={id} server:defer>
-        <div slot="fallback">Loading...</div>
+        <div
+            slot="fallback"
+            class="flex items-center justify-center min-h-screen bg-gray-100 absolute top-0 left-0 w-full h-full"
+        >
+            <div
+                class="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
+            >
+            </div>
+        </div>
     </Noodle>
 </Layout>

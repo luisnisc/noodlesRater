@@ -44,34 +44,46 @@ export const prerender = false;
                     <option value="nombre">Ordenar por nombre</option>
                 </select>
             </div>
-            <Noodles server:defer>
-                <div slot="fallback">Loading...</div>
-            </Noodles>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Noodles server:defer>
+                    <div
+                        slot="fallback"
+                        class="flex items-center justify-center min-h-screen bg-gray-100 absolute top-0 left-0 w-full h-full"
+                    >
+                        <div
+                            class="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
+                        >
+                        </div>
+                    </div>
+                </Noodles>
+            </div>
         </div>
     </main>
     <script type="module">
-        const select = document.querySelector(".select");
-        const grid = document.querySelector(".grid");
+        window.onload = () => {
+            const select = document.querySelector(".select");
 
-        function sortCards(option) {
-            const cards = Array.from(grid.querySelectorAll(".card"));
-            cards.sort((a, b) => {
-                if (option === "mayorRating") {
-                    return b.dataset.rating - a.dataset.rating;
-                }
-                if (option === "menorRating") {
-                    return a.dataset.rating - b.dataset.rating;
-                }
-                if (option === "nombre") {
-                    return a.dataset.name.localeCompare(b.dataset.name);
-                }
-                return 0;
+            function sortCards(option) {
+                const grid = document.querySelector(".grid");
+                const cards = Array.from(grid.querySelectorAll(".card"));
+                cards.sort((a, b) => {
+                    if (option === "mayorRating") {
+                        return b.dataset.rating - a.dataset.rating;
+                    }
+                    if (option === "menorRating") {
+                        return a.dataset.rating - b.dataset.rating;
+                    }
+                    if (option === "nombre") {
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    }
+                    return 0;
+                });
+                cards.forEach((card) => grid.appendChild(card));
+            }
+
+            select.addEventListener("change", (e) => {
+                sortCards(e.target.value);
             });
-            cards.forEach((card) => grid.appendChild(card));
-        }
-
-        select.addEventListener("change", (e) => {
-            sortCards(e.target.value);
-        });
+        };
     </script>
 </Layout>
