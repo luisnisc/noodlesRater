@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Noodles from "../components/Noodles.astro";
+import Loading from "../components/Loading.astro";
+
 
 export const prerender = false;
 ---
@@ -50,10 +52,7 @@ export const prerender = false;
                         slot="fallback"
                         class="flex items-center justify-center min-h-screen bg-gray-100 absolute top-0 left-0 w-full h-full"
                     >
-                        <div
-                            class="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
-                        >
-                        </div>
+                        <Loading/>
                     </div>
                 </Noodles>
             </div>

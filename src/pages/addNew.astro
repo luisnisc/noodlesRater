@@ -29,6 +29,7 @@ if (Astro.request.method === "POST") {
         params.append("name", name);
         params.append("description", description);
         params.append("rating", rating);
+        params.append("review", description)
         params.append("img", imageBase64);
 
         // Make the API request server-side
@@ -41,7 +42,6 @@ if (Astro.request.method === "POST") {
         });
 
         if (response.ok) {
-            // Redirect after successful submission
             return Astro.redirect("/raterPage");
         } else {
             const responseData = await response.text();

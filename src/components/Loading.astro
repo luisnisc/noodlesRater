@@ -1,0 +1,41 @@
+---
+import NoodleSvg from '../assets/noodle.svg?component';
+---
+<div class="login-loader">
+  <NoodleSvg class="noodle-svg"/>
+</div>
+
+<style>
+.login-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f0f0f0;
+}
+
+.noodle-svg {
+  width: 200px;
+  height: auto;
+  animation: sway 4s ease-in-out infinite;
+}
+
+/* animamos sólo los <path> del grupo “smoke” */
+.noodle-svg .smoke path {
+  animation: steam 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* movimiento suave del bol */
+@keyframes sway {
+  0%,100% { transform: rotate(-2deg); }
+  50%     { transform: rotate(2deg);  }
+}
+
+/* humo subiendo y desvaneciéndose */
+@keyframes steam {
+  0%   { opacity: 0; transform: translateY( 10px); }
+  50%  { opacity: 1; transform: translateY(-10px); }
+  100% { opacity: 0; transform: translateY(-30px); }
+}
+</style>
