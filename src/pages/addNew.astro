@@ -1,158 +1,180 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+// Server-side code
+let formSubmitted = false;
+let error = null;
+
+// Process the form submission on the server side
+if (Astro.request.method === "POST") {
+    try {
+        const formData = await Astro.request.formData();
+
+        const name = formData.get("name")?.toString() || "";
+        const description = formData.get("description")?.toString() || "";
+        const rating = formData.get("rating")?.toString() || "";
+
+        // Handle the image
+        const imageFile = formData.get("img");
+        let imageBase64 = "";
+
+        if (imageFile instanceof File && imageFile.size > 0) {
+            const buffer = await imageFile.arrayBuffer();
+            const base64 = Buffer.from(buffer).toString("base64");
+            imageBase64 = `data:${imageFile.type};base64,${base64}`;
+        }
+
+        // Create form params for the API
+        const params = new URLSearchParams();
+        params.append("name", name);
+        params.append("description", description);
+        params.append("rating", rating);
+        params.append("img", imageBase64);
+
+        // Make the API request server-side
+        const response = await fetch("http://127.0.0.1:8000/api/noodle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: params.toString(),
+        });
+
+        if (response.ok) {
+            // Redirect after successful submission
+            return Astro.redirect("/raterPage");
+        } else {
+            const responseData = await response.text();
+            error = `Error: ${response.status} ${response.statusText}. ${responseData}`;
+        }
+    } catch (e: unknown) {
+        error = `Exception: ${e instanceof Error ? e.message : String(e)}`;
+        console.error(e);
+    }
+}
 ---
 
 <Layout>
-  <main
-    class="min-h-screen bg-gray-100 flex flex-col items-center justify-center py-8"
-  >
-    <form id="add-new-form" class="flex flex-col items-center gap-4">
-      <div
-        id="menu"
-        class="md:absolute md:left-0 md:top-0 md:m-4 flex flex-row items-center gap-4"
-      >
-        <a href="/raterPage" transition:name="primaryButton">
-          <button type="button" class="btn btn-primary mb-4"
-            >Volver Atrás</button
-          >
-        </a>
-        <a href="/" transition:name="secondaryButton">
-          <button type="button" class="btn btn-secondary mb-4"
-            >Volver a la Página Principal</button
-          >
-        </a>
-      </div>
+    <main
+        class="min-h-screen bg-gray-100 flex flex-col items-center justify-center py-8"
+    >
+        {error && <div class="alert alert-error mb-4">{error}</div>}
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Nombre del Noodle"
-        class="input input-bordered w-full max-w-xs mb-4 bg-gray-300 text-black"
-        required
-      />
-      <textarea
-        name="description"
-        placeholder="Descripción del Noodle"
-        class="textarea textarea-bordered w-full max-w-xs mb-4 bg-gray-300 text-black"
-        required></textarea>
-      <input
-        type="file"
-        name="img"
-        class="file-input bg-gray-300 text-black mb-4"
-        accept="image/*"
-      />
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="flex flex-col items-center gap-4"
+        >
+            <div
+                id="menu"
+                class="md:absolute md:left-0 md:top-0 md:m-4 flex flex-row items-center gap-4"
+            >
+                <a href="/raterPage" transition:name="primaryButton">
+                    <button type="button" class="btn btn-primary mb-4"
+                        >Volver Atrás</button
+                    >
+                </a>
+                <a href="/" transition:name="secondaryButton">
+                    <button type="button" class="btn btn-secondary mb-4"
+                        >Volver a la Página Principal</button
+                    >
+                </a>
+            </div>
 
-      <div
-        class="rating rating-lg rating-half mb-4 text-black md:text-xl flex"
-        id="rating"
-      >
-        <input type="radio" name="rating" value="0" class="rating-hidden" />
-        <input
-          type="radio"
-          name="rating"
-          value="1"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="2"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="3"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="4"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="5"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="6"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="7"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="8"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="9"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-        />
-        <input
-          type="radio"
-          name="rating"
-          value="10"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-        />
-      </div>
+            <input
+                type="text"
+                name="name"
+                placeholder="Nombre del Noodle"
+                class="input input-bordered w-full max-w-xs mb-4 bg-gray-300 text-black"
+                required
+            />
+            <textarea
+                name="description"
+                placeholder="Descripción del Noodle"
+                class="textarea textarea-bordered w-full max-w-xs mb-4 bg-gray-300 text-black"
+                required></textarea>
+            <input
+                type="file"
+                name="img"
+                class="file-input bg-gray-300 text-black mb-4"
+                accept="image/*"
+            />
 
-      <button type="submit" class="btn btn-primary mb-4">Agregar Noodle</button>
-    </form>
-  </main>
+            <div
+                class="rating rating-lg rating-half mb-4 text-black md:text-xl flex"
+                id="rating"
+            >
+                <input
+                    type="radio"
+                    name="rating"
+                    value="0"
+                    class="rating-hidden"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="1"
+                    class="mask mask-star-2 mask-half-1 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="2"
+                    class="mask mask-star-2 mask-half-2 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="3"
+                    class="mask mask-star-2 mask-half-1 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="4"
+                    class="mask mask-star-2 mask-half-2 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="5"
+                    class="mask mask-star-2 mask-half-1 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="6"
+                    class="mask mask-star-2 mask-half-2 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="7"
+                    class="mask mask-star-2 mask-half-1 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="8"
+                    class="mask mask-star-2 mask-half-2 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="9"
+                    class="mask mask-star-2 mask-half-1 bg-orange-500"
+                />
+                <input
+                    type="radio"
+                    name="rating"
+                    value="10"
+                    class="mask mask-star-2 mask-half-2 bg-orange-500"
+                />
+            </div>
 
-  <script type="module">
-    const form = document.getElementById("add-new-form");
-    form.addEventListener("submit", handleSubmit);
-
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (e) => reject(e);
-      });
-    }
-
-    async function handleSubmit(event) {
-      event.preventDefault();
-      const data = new FormData(form);
-
-      const file = data.get("img");
-      let imageBase64 = "";
-      if (file && file.size) {
-        imageBase64 = await fileToBase64(file);
-      }
-
-      const params = new URLSearchParams();
-      params.append("name", data.get("name"));
-      params.append("description", data.get("description"));
-      params.append("rating", data.get("rating"));
-      params.append("img", imageBase64);
-
-      const response = await fetch("http://127.0.0.1:8000/api/noodle", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params.toString()
-      });
-
-      if (response.ok) {
-        window.location.href = "/raterPage";
-      } else {
-        console.error("Error adding noodle:", response.statusText);
-      }
-    }
-  </script>
+            <button type="submit" class="btn btn-primary mb-4"
+                >Agregar Noodle</button
+            >
+        </form>
+    </main>
 </Layout>

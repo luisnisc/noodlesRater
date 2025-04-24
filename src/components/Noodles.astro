@@ -1,0 +1,32 @@
+---
+import Card from "./Card.astro";
+
+export interface Noodle {
+    id: number;
+    name: string;
+    ratings: number;
+    img?: string;
+}
+
+const response = await fetch("http://127.0.0.1:8000/api/noodles", {
+    cache: "force-cache",
+});
+if (!response.ok) {
+    throw new Error("Failed to fetch data");
+}
+const noodles = await response.json();
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {
+        noodles.map((noodle: Noodle) => (
+            <Card
+                key={noodle.id}
+                id={noodle.id}
+                name={noodle.name}
+                ratings={noodle.ratings}
+                img={noodle.img || "https://picsum.photos/400/200"}
+            />
+        ))
+    }
+</div>
