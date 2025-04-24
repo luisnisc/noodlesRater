@@ -5,12 +5,12 @@ const res = await fetch("http://127.0.0.1:8000/api/noodles", {
     cache: "force-cache",
 });
 
+const id = Number(Astro.props.id);
 if (!res.ok) throw new Error("Failed to fetch noodle list");
 const noodles = await res.json();
 const noodleData = noodles.find((n: Noodle) => n.id === id) || {};
 const imageSrc = noodleData.img || "https://picsum.photos/400/200";
 const ratings = noodleData.ratings ?? 0;
-const id = Number(Astro.props.id);
 const uniqueRatingName = `rating-${id}`;
 ---
 
