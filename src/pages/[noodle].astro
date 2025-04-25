@@ -25,12 +25,12 @@ const noodleData = data.find((noodle) => noodle.id === id);
 </head>
 <Layout>
   <main
-    class="md:min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col items-center py-8 min-h-screen justify-center"
+    class="md:min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col items-center py-8 px-4 min-h-screen justify-start md:justify-center"
   >
     <a
       href="/raterPage"
       transition:name={`moreInfo-${id}`}
-      class="md:absolute md:left-0 md:top-0 m-5"
+      class="self-start md:absolute md:left-0 md:top-0 m-5"
     >
       <button class="btn btn-primary w-max mb-4">Volver Atrás</button>
     </a>
@@ -42,40 +42,49 @@ const noodleData = data.find((noodle) => noodle.id === id);
       description={noodleData.description}
       server:defer
     />
-    <div id="ratingList">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Lista de Reseñas</h2>
-      <ul class="list-disc list-inside">
+    <div id="ratingList" class="w-full max-w-xl mt-8">
+      <h2
+        class="text-2xl font-bold text-gray-800 mb-4 text-center md:text-left"
+      >
+        Lista de Reseñas
+      </h2>
+      <ul class="space-y-4">
         {
           noodleData.ratings.map((rating, idx) => (
-            <div class="bg-white shadow-md rounded-lg p-4 mb-4 hover:translate-y-[-0.5em] transition-all duration-300 w-max max-w-[40em] break-words h-max">
-            <li key={idx} class="flex items-center gap-4 mb-4">
-              <div
-                class="rating rating-lg rating-half"
-                transition:name={`rater-${id}-${idx}`}
+            <div class="bg-white shadow-md rounded-lg p-4 transition-all duration-300 hover:shadow-lg">
+              {" "}
+              <li
+                key={idx}
+                class="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-4"
               >
-                {Array.from({ length: 10 }).map((_, i) => {
-                  const half = i + 1;
-                  const halfClass = half % 2 ? "mask-half-1" : "mask-half-2";
-                  return (
-                    <input
-                      key={half}
-                      type="radio"
-                      name={`rating-${idx}`}
-                      class={`mask mask-star-2 ${halfClass} bg-orange-500`}
-                      aria-label={`${(half * 0.5).toFixed(1)} estrellas`}
-                      checked={half === rating.rating}
-                      disabled
-                    />
-                  );
-                })}
-              </div>
-              {rating.review && (
-                <div class="ml-4 break-words w-[20em] max-w[20em]">
-                  <p class="text-gray-700">{rating.review}</p>
+                <div
+                  class="rating rating-lg rating-half"
+                  transition:name={`rater-${id}-${idx}`}
+                >
+                  {Array.from({ length: 10 }).map((_, i) => {
+                    const half = i + 1;
+                    const halfClass = half % 2 ? "mask-half-1" : "mask-half-2";
+                    return (
+                      <input
+                        key={half}
+                        type="radio"
+                        name={`rating-${idx}`}
+                        class={`mask mask-star-2 ${halfClass} bg-orange-500`}
+                        aria-label={`${(half * 0.5).toFixed(1)} estrellas`}
+                        checked={half === rating.rating}
+                        disabled
+                      />
+                    );
+                  })}
                 </div>
-              )}
-            </li>
-          </div>
+                <div class="w-full break-words">
+                  {" "}
+                  <p class="text-gray-700">
+                    {rating.review || "Sin reseña"}
+                  </p>{" "}
+                </div>
+              </li>
+            </div>
           ))
         }
       </ul>
