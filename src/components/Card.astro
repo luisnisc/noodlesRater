@@ -13,38 +13,6 @@ ratings.forEach((rating) => {
 
 const uniqueRatingName = `rating-${id}`;
 
-if (Astro.request.method === "POST") {
-  try {
-    const formData = await Astro.request.formData();
-    const noodleId = id.toString();
-    const review = formData.get("review")?.toString() || "";
-    const rating = formData.get("rating")?.toString() || "";
-
-    const params = new URLSearchParams();
-    params.append("noodle_id", noodleId);
-    params.append("review", review);
-    params.append("rating", rating);
-
-    const response = await fetch("http://127.0.0.1:8000/api/rate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params.toString(),
-    });
-    console.log("Response:", response);
-
-    if (response.ok) {
-      return Astro.redirect("/raterPage");
-    } else {
-      const responseData = await response.text();
-      error = `Error: ${response.status} ${response.statusText}. ${responseData}`;
-    }
-  } catch (e: unknown) {
-    error = `Exception: ${e instanceof Error ? e.message : String(e)}`;
-    console.error(e);
-  }
-}
 const modalId = `modal-${id}`;
 ---
 
@@ -158,8 +126,8 @@ const modalId = `modal-${id}`;
         />
       </div>
       <div class="ml-4 flex items-center">
-        <label for={modalId} class="btn bg-gray-300 ml-4">
-          <Plus_star class="w-5 h-5" alt="Añadir Puntuación" />
+        <label for={modalId} class="btn border-none bg-gray-100 shadow-md">
+          <Plus_star class="w-5 h-5" fill="orange" />
         </label>
       </div>
     </div>
@@ -175,85 +143,41 @@ const modalId = `modal-${id}`;
 </div>
 
 <input type="checkbox" id={modalId} class="modal-toggle" />
-<div class="modal bg-white">
+<div class="modal">
   <div class="modal-box bg-white text-black">
     <h3 class="font-bold text-lg">Añade tu reseña</h3>
-    <form method="POST" action="">
-      <div class="rating rating-lg rating-half">
-        <input type="radio" name="rating" class="rating-hidden" />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="0.5 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="1 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="1.5 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="2 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="2.5 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="3 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="3.5 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="4 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="4.5 star"
-        />
-        <input
-          type="radio"
-          name="rating"
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="5 star"
-        />
+    <form method="POST" action="/raterPage">
+      <input type="hidden" name="noodle_id" value={id} />
+
+      <div class="rating rating-lg rating-half my-4">
+        {
+          [...Array(10)].map((_, idx) => {
+            const intVal = idx + 1;
+            const display = (intVal * 0.5).toFixed(1);
+            const halfClass = intVal % 2 ? "mask-half-1" : "mask-half-2";
+            return (
+              <input
+                key={intVal}
+                type="radio"
+                name="rating"
+                value={intVal}                  
+                class={`mask mask-star-2 ${halfClass} bg-orange-500`}
+                aria-label={`${display} estrellas`}
+                required
+              />
+            );
+          })
+        }
       </div>
-      <div class="form-control mt-4">
-        <label for="review" class="label">
-          <span class="label-text">Review</span>
-        </label>
-        <textarea
-          name="review"
-          class="textarea textarea-bordered h-24 bg-white resize-none shadow-md border-black-2"
-          placeholder="Escribe tu reseña aquí..."></textarea>
-      </div>
+
+      <textarea
+        name="review"
+        class="textarea textarea-bordered w-full mb-4 bg-white text-black border-black"
+        placeholder="Tu reseña…"
+        required></textarea>
+
       <div class="modal-action">
-        <button type="submit" class="btn">Enviar</button>
-        <!-- este label cierra al des‑checkear el checkbox -->
+        <button type="submit" class="btn btn-primary">Enviar</button>
         <label for={modalId} class="btn">Cancelar</label>
       </div>
     </form>
