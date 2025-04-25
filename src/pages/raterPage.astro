@@ -76,11 +76,13 @@ export const prerender = false;
         const grid = document.querySelector(".grid");
         const cards = Array.from(grid.querySelectorAll(".card"));
         cards.sort((a, b) => {
+          const ratingA = parseFloat(a.dataset.rating);
+          const ratingB = parseFloat(b.dataset.rating);
           if (option === "mayorRating") {
-            return b.dataset.rating - a.dataset.rating;
+            return ratingB - ratingA;
           }
           if (option === "menorRating") {
-            return a.dataset.rating - b.dataset.rating;
+            return ratingA - ratingB;
           }
           if (option === "nombre") {
             return a.dataset.name.localeCompare(b.dataset.name);

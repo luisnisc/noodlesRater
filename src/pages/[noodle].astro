@@ -77,11 +77,19 @@ const noodleData = data.find((noodle) => noodle.id === id);
                     );
                   })}
                 </div>
-                <div class="w-full md:flex-1 break-words">
+                <div class="w-max md:flex-1 break-words">
                   {" "}
-                  <p class="text-gray-700 max-w-[25em]">
-                    {rating.review || "Sin reseña"}
-                  </p>{" "}
+                  {rating.review ? (
+                    <p
+                      class="text-gray-700 max-w-[25em] w-max"
+                      transition:name={`review-${id}-${idx}`}
+                    >
+                      {rating.review}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                  {" "}
                 </div>
               </li>
             </div>
