@@ -1,5 +1,6 @@
 ---
 import type { Noodle as NoodleType } from "./Noodles.astro";
+import ModalImage from "react-modal-image";
 
 const {
   id,
@@ -18,18 +19,21 @@ if (Array.isArray(ratings) && ratings.length) {
 }
 
 const uniqueRatingName = `rating-${id}`;
+const imageModalId = `image-modal-${id}`; // ID para el modal de la imagen
 ---
 
 <div
   class="bg-white shadow-lg rounded-xl p-6 w-full max-w-md flex flex-col items-center"
   transition:name={`card-${id}`}
 >
-  <img
-    src={img.startsWith("data:") ? img : `data:image/webp;base64,${img}`}
-    alt={name}
-    class="rounded-lg w-full h-48 object-cover mb-4"
-    transition:name={`image-${id}`}
-  />
+  <label for={imageModalId} class="cursor-pointer">
+    <img
+      src={img.startsWith("data:") ? img : `data:image/webp;base64,${img}`}
+      alt={`Ver imagen ampliada de ${name}`}
+      class="rounded-lg w-full h-48 object-cover mb-4 hover:opacity-80 transition-opacity"
+      transition:name={`image-${id}`}
+    />
+  </label>
 
   <h1
     class="text-3xl font-bold text-gray-800 mb-2"
@@ -68,4 +72,22 @@ const uniqueRatingName = `rating-${id}`;
   <p class="text-gray-700 text-center">
     {description || "Sin descripción disponible para este noodle."}
   </p>
+</div>
+
+<input type="checkbox" id={imageModalId} class="modal-toggle" />
+<div class="modal cursor-pointer">
+  <div class="modal-box relative w-11/12 max-w-3xl p-4 bg-white">
+    <label
+      for={imageModalId}
+      class="btn btn-sm btn-circle absolute right-2 top-2 z-10">✕</label
+    >
+    <img
+      src={img.startsWith("data:") ? img : `data:image/webp;base64,${img}`}
+      alt={name}
+      class="rounded-lg w-full h-auto max-h-[80vh] object-contain"
+      
+    />
+  </div>
+  {/* Añade un backdrop para cerrar al hacer clic fuera */}
+  <label class="modal-backdrop" for={imageModalId}>Close</label>
 </div>

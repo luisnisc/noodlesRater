@@ -11,125 +11,68 @@ ratings.forEach((rating) => {
   }
 });
 
-let ratingsMedia = Math.round(ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length);
+let ratingsMedia = 0;
+if (Array.isArray(ratings) && ratings.length > 0) {
+  ratingsMedia = Math.round(
+    ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length
+  );
+}
 
 const uniqueRatingName = `rating-${id}`;
-
-const modalId = `modal-${id}`;
+const reviewModalId = `review-modal-${id}`;
+const imageModalId = `image-modal-${id}`;
 ---
 
 <div
   class="card bg-white shadow-md rounded-lg p-4 w-80 text-black hover:scale-105 transition-transform duration-300 ease-in-out"
   transition:name={`card-${id}`}
-  data-rating={ratingsMedia.toFixed(1) || 0}
+  data-rating={ratingsMedia || 0}
   data-name={name.toLowerCase()}
 >
-  <Image
-    id={`img-${id}`}
-    width={200}
-    height={400}
-    src={img || "https://picsum.photos/400/200"}
-    alt={name || "Noodle"}
-    class="rounded-t-lg w-full h-40 object-cover mb-4"
-    loading="lazy"
-    transition:name={`image-${id}`}
-  />
-  <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2">{name}</h2>
+  <label for={imageModalId} class="cursor-pointer">
+    <Image
+      id={`img-${id}`}
+      width={320}
+      height={160}
+      src={img || "https://picsum.photos/320/160"}
+      alt={`Ver imagen ampliada de ${name || "Noodle"}`}
+      class="rounded-t-lg w-full h-40 object-cover mb-4 hover:opacity-80 transition-opacity"
+      loading="lazy"
+      transition:name={`image-${id}`}
+    />
+  </label>
+
+  <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2 truncate">
+    {name}
+  </h2>
   <div>
     <h3>Puntuación media:</h3>
-    <div class="flex flex-row justify-center">
+    <div class="flex flex-row justify-center items-center">
       <div class="rating rating-lg rating-half" transition:name={`rater-${id}`}>
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="rating-hidden"
-          checked={ratingsMedia === 0}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="0.5 star"
-          checked={ratingsMedia === 1}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="1 star"
-          checked={ratingsMedia === 2}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="1.5 star"
-          checked={ratingsMedia === 3}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="2 star"
-          checked={ratingsMedia === 4}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="2.5 star"
-          checked={ratingsMedia === 5}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="3 star"
-          checked={ratingsMedia === 6}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="3.5 star"
-          checked={ratingsMedia === 7}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="4 star"
-          checked={ratingsMedia === 8}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-1 bg-orange-500"
-          aria-label="4.5 star"
-          checked={ratingsMedia === 9}
-          disabled
-        />
-        <input
-          type="radio"
-          name={uniqueRatingName}
-          class="mask mask-star-2 mask-half-2 bg-orange-500"
-          aria-label="5 star"
-          checked={ratingsMedia === 10}
-          disabled
-        />
+        {
+          [...Array(10)].map((_, idx) => {
+            const i = idx + 1;
+            const halfClass = i % 2 === 1 ? "mask-half-1" : "mask-half-2";
+            return (
+              <input
+                key={i}
+                type="radio"
+                name={uniqueRatingName}
+                class={`mask mask-star-2 ${halfClass} bg-orange-500`}
+                aria-label={`${(i * 0.5).toFixed(1)} estrellas`}
+                checked={ratingsMedia === i}
+                disabled
+              />
+            );
+          })
+        }
       </div>
       <div class="ml-4 flex items-center">
-        <label for={modalId} class="btn border-none bg-gray-100 shadow-md">
-          <Plus_star class="w-5 h-5" fill="orange" />
+        <label
+          for={reviewModalId}
+          class="btn btn-sm btn-circle border-none bg-gray-100 shadow-md"
+        >
+          <Plus_star class="w-4 h-4" fill="orange" />
         </label>
       </div>
     </div>
@@ -137,20 +80,22 @@ const modalId = `modal-${id}`;
       Puntuación: {ratingsMedia}/10
     </p>
   </div>
-  <a href=`/${id}` class="w-full">
-    <button class="btn btn-primary mt-4" transition:name={`button-${id}`}>
+  <a href={`/${id}`} class="w-full">
+    <button
+      class="btn btn-primary mt-4 w-full"
+      transition:name={`button-${id}`}
+    >
       Ver Detalles
     </button>
   </a>
 </div>
 
-<input type="checkbox" id={modalId} class="modal-toggle" />
+<input type="checkbox" id={reviewModalId} class="modal-toggle" />
 <div class="modal">
   <div class="modal-box bg-white text-black">
     <h3 class="font-bold text-lg">Añade tu reseña</h3>
     <form method="POST" action="/raterPage">
       <input type="hidden" name="noodle_id" value={id} />
-
       <div class="rating rating-lg rating-half my-4">
         {
           [...Array(10)].map((_, idx) => {
@@ -162,7 +107,7 @@ const modalId = `modal-${id}`;
                 key={intVal}
                 type="radio"
                 name="rating"
-                value={intVal}                  
+                value={intVal}
                 class={`mask mask-star-2 ${halfClass} bg-orange-500`}
                 aria-label={`${display} estrellas`}
                 required
@@ -171,17 +116,35 @@ const modalId = `modal-${id}`;
           })
         }
       </div>
-
       <textarea
         name="review"
         class="textarea textarea-bordered w-full mb-4 bg-white text-black border-black"
         placeholder="Tu reseña…"
         required></textarea>
-
       <div class="modal-action">
         <button type="submit" class="btn btn-primary">Enviar</button>
-        <label for={modalId} class="btn">Cancelar</label>
+        <label for={reviewModalId} class="btn">Cancelar</label>
       </div>
     </form>
   </div>
+  <label class="modal-backdrop" for={reviewModalId}>Close</label>
+</div>
+
+<input type="checkbox" id={imageModalId} class="modal-toggle" />
+<div class="modal cursor-pointer">
+  <div class="modal-box relative w-11/12 max-w-3xl p-4 bg-white">
+    <label
+      for={imageModalId}
+      class="btn btn-sm btn-circle absolute right-2 top-2 z-10">✕</label
+    >
+    <Image
+      src={img || "https://picsum.photos/800/600"}
+      alt={name || "Noodle"}
+      width={800}
+      height={600}
+      class="rounded-lg w-full h-auto max-h-[80vh] object-contain"
+      loading="lazy"
+    />
+  </div>
+  <label class="modal-backdrop" for={imageModalId}>Close</label>
 </div>
