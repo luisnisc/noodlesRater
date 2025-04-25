@@ -1,10 +1,19 @@
 ---
 import { Image } from "astro:assets";
+import Plus_star from "../assets/plus_star.svg";
 
-const { id, name, ratings = 0, img } = Astro.props;
-// parse rating as number
-const ratingsNum = Number(ratings);
+const { id, name, ratings = [], img } = Astro.props;
+
+let ratingsNum = 0;
+ratings.forEach((rating) => {
+  if (rating.rating > ratingsNum) {
+    ratingsNum = rating.rating;
+  }
+});
+
 const uniqueRatingName = `rating-${id}`;
+
+const modalId = `modal-${id}`;
 ---
 
 <div
@@ -19,139 +28,158 @@ const uniqueRatingName = `rating-${id}`;
     height={400}
     src={img || "https://picsum.photos/400/200"}
     alt={name || "Noodle"}
-    class="rounded-t-lg w-full h-40 object-cover mb-4 cursor-zoom-in"
+    class="rounded-t-lg w-full h-40 object-cover mb-4"
     loading="lazy"
-    placeholder="blur"
     transition:name={`image-${id}`}
   />
   <h2 transition:name={`name-${id}`} class="text-xl font-bold mb-2">{name}</h2>
   <div>
-    <div class="rating rating-lg rating-half" transition:name={`rater-${id}`}>
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="rating-hidden"
-        checked={ratingsNum === 0}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-1 bg-orange-500"
-        aria-label="0.5 star"
-        checked={ratingsNum === 1}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-2 bg-orange-500"
-        aria-label="1 star"
-        checked={ratingsNum === 2}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-1 bg-orange-500"
-        aria-label="1.5 star"
-        checked={ratingsNum === 3}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-2 bg-orange-500"
-        aria-label="2 star"
-        checked={ratingsNum === 4}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-1 bg-orange-500"
-        aria-label="2.5 star"
-        checked={ratingsNum === 5}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-2 bg-orange-500"
-        aria-label="3 star"
-        checked={ratingsNum === 6}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-1 bg-orange-500"
-        aria-label="3.5 star"
-        checked={ratingsNum === 7}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-2 bg-orange-500"
-        aria-label="4 star"
-        checked={ratingsNum === 8}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-1 bg-orange-500"
-        aria-label="4.5 star"
-        checked={ratingsNum === 9}
-        disabled
-      />
-      <input
-        type="radio"
-        name={uniqueRatingName}
-        class="mask mask-star-2 mask-half-2 bg-orange-500"
-        aria-label="5 star"
-        checked={ratingsNum === 10}
-        disabled
-      />
+    <h3>Puntuación media:</h3>
+    <div class="flex flex-row justify-center">
+      <div class="rating rating-lg rating-half" transition:name={`rater-${id}`}>
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="rating-hidden"
+          checked={ratingsNum === 0}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-1 bg-orange-500"
+          aria-label="0.5 star"
+          checked={ratingsNum === 1}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-2 bg-orange-500"
+          aria-label="1 star"
+          checked={ratingsNum === 2}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-1 bg-orange-500"
+          aria-label="1.5 star"
+          checked={ratingsNum === 3}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-2 bg-orange-500"
+          aria-label="2 star"
+          checked={ratingsNum === 4}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-1 bg-orange-500"
+          aria-label="2.5 star"
+          checked={ratingsNum === 5}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-2 bg-orange-500"
+          aria-label="3 star"
+          checked={ratingsNum === 6}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-1 bg-orange-500"
+          aria-label="3.5 star"
+          checked={ratingsNum === 7}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-2 bg-orange-500"
+          aria-label="4 star"
+          checked={ratingsNum === 8}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-1 bg-orange-500"
+          aria-label="4.5 star"
+          checked={ratingsNum === 9}
+          disabled
+        />
+        <input
+          type="radio"
+          name={uniqueRatingName}
+          class="mask mask-star-2 mask-half-2 bg-orange-500"
+          aria-label="5 star"
+          checked={ratingsNum === 10}
+          disabled
+        />
+      </div>
+      <div class="ml-4 flex items-center">
+        <label for={modalId} class="btn border-none bg-gray-100 shadow-md">
+          <Plus_star class="w-5 h-5" fill="orange" />
+        </label>
+      </div>
     </div>
     <p class="mt-2 text-sm text-gray-600" transition:name={`rater-text-${id}`}>
-      Puntuación: {ratings}/10
+      Puntuación: {ratingsNum}/10
     </p>
   </div>
-
-  <a
-    href={`/${id}`}
-    class="flex justify-center"
-    transition:name=`moreInfo-${id}`
-    ><button class="btn btn-primary mt-4">Mas Información</button></a
-  >
+  <a href=`/${id}` class="w-full">
+    <button class="btn btn-primary mt-4" transition:name={`button-${id}`}>
+      Ver Detalles
+    </button>
+  </a>
 </div>
 
-<div
-  id={`modal-${id}`}
-  class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 items-center justify-center"
->
-  <img
-    src={img || "https://picsum.photos/400/200"}
-    alt={name}
-    class="max-w-full max-h-full rounded-lg"
-  />
-  <button id={`close-${id}`} class="absolute top-4 right-4 text-white text-3xl"
-    >&times;</button
-  >
-</div>
+<input type="checkbox" id={modalId} class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box bg-white text-black">
+    <h3 class="font-bold text-lg">Añade tu reseña</h3>
+    <form method="POST" action="/raterPage">
+      <input type="hidden" name="noodle_id" value={id} />
 
-<script type="module">
-  const imgEl = document.getElementById(`img-${id}`);
-  const modalEl = document.getElementById(`modal-${id}`);
-  const closeBtn = document.getElementById(`close-${id}`);
-  imgEl.addEventListener("dblclick", () => {
-    modalEl.classList.remove("hidden");
-    modalEl.classList.add("flex");
-  });
-  closeBtn.addEventListener("click", () => {
-    modalEl.classList.add("hidden");
-    modalEl.classList.remove("flex");
-  });
-</script>
+      <div class="rating rating-lg rating-half my-4">
+        {
+          [...Array(10)].map((_, idx) => {
+            const intVal = idx + 1;
+            const display = (intVal * 0.5).toFixed(1);
+            const halfClass = intVal % 2 ? "mask-half-1" : "mask-half-2";
+            return (
+              <input
+                key={intVal}
+                type="radio"
+                name="rating"
+                value={intVal}                  
+                class={`mask mask-star-2 ${halfClass} bg-orange-500`}
+                aria-label={`${display} estrellas`}
+                required
+              />
+            );
+          })
+        }
+      </div>
+
+      <textarea
+        name="review"
+        class="textarea textarea-bordered w-full mb-4 bg-white text-black border-black"
+        placeholder="Tu reseña…"
+        required></textarea>
+
+      <div class="modal-action">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <label for={modalId} class="btn">Cancelar</label>
+      </div>
+    </form>
+  </div>
+</div>
