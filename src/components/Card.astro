@@ -11,6 +11,8 @@ ratings.forEach((rating) => {
   }
 });
 
+let ratingsMedia = Math.round(ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length);
+
 const uniqueRatingName = `rating-${id}`;
 
 const modalId = `modal-${id}`;
@@ -41,7 +43,7 @@ const modalId = `modal-${id}`;
           type="radio"
           name={uniqueRatingName}
           class="rating-hidden"
-          checked={ratingsNum === 0}
+          checked={ratingsMedia === 0}
           disabled
         />
         <input
@@ -49,7 +51,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-1 bg-orange-500"
           aria-label="0.5 star"
-          checked={ratingsNum === 1}
+          checked={ratingsMedia === 1}
           disabled
         />
         <input
@@ -57,7 +59,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-2 bg-orange-500"
           aria-label="1 star"
-          checked={ratingsNum === 2}
+          checked={ratingsMedia === 2}
           disabled
         />
         <input
@@ -65,7 +67,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-1 bg-orange-500"
           aria-label="1.5 star"
-          checked={ratingsNum === 3}
+          checked={ratingsMedia === 3}
           disabled
         />
         <input
@@ -73,7 +75,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-2 bg-orange-500"
           aria-label="2 star"
-          checked={ratingsNum === 4}
+          checked={ratingsMedia === 4}
           disabled
         />
         <input
@@ -81,7 +83,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-1 bg-orange-500"
           aria-label="2.5 star"
-          checked={ratingsNum === 5}
+          checked={ratingsMedia === 5}
           disabled
         />
         <input
@@ -89,7 +91,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-2 bg-orange-500"
           aria-label="3 star"
-          checked={ratingsNum === 6}
+          checked={ratingsMedia === 6}
           disabled
         />
         <input
@@ -97,7 +99,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-1 bg-orange-500"
           aria-label="3.5 star"
-          checked={ratingsNum === 7}
+          checked={ratingsMedia === 7}
           disabled
         />
         <input
@@ -105,7 +107,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-2 bg-orange-500"
           aria-label="4 star"
-          checked={ratingsNum === 8}
+          checked={ratingsMedia === 8}
           disabled
         />
         <input
@@ -113,7 +115,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-1 bg-orange-500"
           aria-label="4.5 star"
-          checked={ratingsNum === 9}
+          checked={ratingsMedia === 9}
           disabled
         />
         <input
@@ -121,7 +123,7 @@ const modalId = `modal-${id}`;
           name={uniqueRatingName}
           class="mask mask-star-2 mask-half-2 bg-orange-500"
           aria-label="5 star"
-          checked={ratingsNum === 10}
+          checked={ratingsMedia === 10}
           disabled
         />
       </div>
@@ -132,7 +134,7 @@ const modalId = `modal-${id}`;
       </div>
     </div>
     <p class="mt-2 text-sm text-gray-600" transition:name={`rater-text-${id}`}>
-      Puntuación: {ratingsNum}/10
+      Puntuación: {ratingsMedia}/10
     </p>
   </div>
   <a href=`/${id}` class="w-full">
